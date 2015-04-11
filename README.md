@@ -11,4 +11,4 @@ But sometimes you have to get dirty and break down the command line yourself - o
 .NET managed language this is the library for it.
 
 ### News
-2014-04-10: Setting up the repository today.  Code is ready to be put into it.
+2014-04-10: Setting up the repository today.  First version of code - working through unit tests - pushed.
