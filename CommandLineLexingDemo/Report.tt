@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+Command Line:
+<# WriteLine(CommandLine);#>
+
+C# (.NET) Argument Lexing:
+Arguments:
+<# PushIndent("    "); #>
+<# for (int i = 0; i < CSharpArguments.Length; i++) WriteLine("{0,4}: {1}", i, CSharpArguments[i]); #>
+<# ClearIndent(); #>
+
+Windows API Argument Lexing:
+Executable: <# Write(Win32Executable); #>
+Arguments:
+<# PushIndent("    "); #>
+<# for (int i = 0; i < Win32Arguments.Length; i++) WriteLine("{0,4}: {1}", i, Win32Arguments[i]); #>
+<# ClearIndent(); #>
+
+VC/VC++ Argument Lexing:
+Executable: <# Write(CppExecutable); #>
+Arguments:
+<# PushIndent("    "); #>
+<# for (int i = 0; i < CppArguments.Length; i++) WriteLine("{0,4}: {1}", i, CppArguments[i]); #>
+<# ClearIndent(); #>
