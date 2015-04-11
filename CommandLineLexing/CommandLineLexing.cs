@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BakinsBits.CommandLineLexing.Details;
+using BakinsBits.Utilities;
 
 namespace BakinsBits.CommandLineLexing
 {
@@ -138,6 +139,16 @@ namespace BakinsBits.CommandLineLexing
                        .RemoveRemainingArguments(arguments);
 
             return Tuple.Create(firstArgument.ToString(), arguments.ToArray());
+        }
+
+        public virtual string ExeAndArgsToCommandLine(string exeName, IEnumerable<string> args)
+        {
+            return ArgsToCommandLine(exeName.Yield().Concat(args));
+        }
+
+        public virtual string ArgsToCommandLine(IEnumerable<string> args)
+        {
+            return String.Join(" ", args.Select(a => a.Quotify()));
         }
     }
 }

@@ -11,7 +11,7 @@ using FluentAssertions;
 
 using BakinsBits.Utilities;
 
-namespace Utilities_UnitTests
+namespace BakinsBits.UtilitiesTests
 {
     public class ValidationExtensionTests
     {

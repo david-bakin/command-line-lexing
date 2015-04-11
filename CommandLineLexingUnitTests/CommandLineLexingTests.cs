@@ -308,5 +308,20 @@ EmittingBackslashesInsideQuotesStayingInsideQuotes:    0
             Assert.Equal(exename, actual.Item1);
             Assert.Equal(args.ToList(), actual.Item2.ToList());
         }
+
+        [Theory]
+        [InlineData("a", "a")]
+        [InlineData("abc", "abc")]
+        [InlineData("a c", @"""a c""")]
+        [InlineData("a  c", @"""a  c""")]
+        [InlineData("a\tc", "\"a\tc\"")]
+        [InlineData(@"\abc", @"""\abc""")]
+        [InlineData(@"a\bc", @"""a\bc""")]
+        [InlineData(@"abc\", @"""abc\\""")]
+        public void QuotifyTest(string input, string expected)
+        {
+            var actual = input.Quotify();
+            Assert.Equal(expected, actual);
+        }
     }
 }

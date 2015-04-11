@@ -316,7 +316,7 @@ namespace BakinsBits.CommandLineLexing
             /// IList<string> and an index, and assigns its parameter into the
             /// list slot it is given.
             /// </remarks>
-            static public void RemoveRemainingArguments(
+            public static void RemoveRemainingArguments(
                 this IEnumerable<char> commandLine,
                 /*out*/ IList<string> arguments,
                 int max = 250)
@@ -343,6 +343,46 @@ namespace BakinsBits.CommandLineLexing
                 {
                     arguments.Add(arg);
                 }
+            }
+
+            static char[] QuotableCharacters = new char[] { ' ', '\t', '\\', '\"' };
+            public static string Quotify(this string arg)
+            {
+                // Fast path: if no whitespace, quotes, or backslashes then no quoting necessary
+                if (-1 == arg.IndexOfAny(QuotableCharacters))
+                {
+                    return arg;
+                }
+
+                var sb = new StringBuilder();
+                int nBackslashes = 0;
+                Action<int> EmitBackslashes = n =>
+                    {
+                        sb.Append('\\', n * nBackslashes);
+                        nBackslashes = 0;
+                    };
+
+                sb.Append('\"');
+                foreach (char c in arg)
+                {
+                    switch (c)
+                    {
+                        case '\\':
+                            nBackslashes++;
+                            break;
+                        case '\"':
+                            EmitBackslashes(2);
+                            sb.Append("\\\"");
+                            break;
+                        default:
+                            EmitBackslashes(1);
+                            sb.Append(c);
+                            break;
+                    }
+                }
+                EmitBackslashes(2);
+                sb.Append('\"');
+                return sb.ToString();
             }
 
             /// <summary>
