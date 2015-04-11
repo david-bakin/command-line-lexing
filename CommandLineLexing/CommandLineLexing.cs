@@ -141,11 +141,23 @@ namespace BakinsBits.CommandLineLexing
             return Tuple.Create(firstArgument.ToString(), arguments.ToArray());
         }
 
+        /// <summary>
+        /// Produce a properly quoted command line from an executable name and a
+        /// bunch of arguments.
+        /// </summary>
         public virtual string ExeAndArgsToCommandLine(string exeName, IEnumerable<string> args)
         {
             return ArgsToCommandLine(exeName.Yield().Concat(args));
         }
 
+        /// <summary>
+        /// Produce a properly quoted command line from a bunch of arguments.
+        /// </summary>
+        /// <remarks>
+        /// Unlike the lexing case, when quoting the command line there is no
+        /// difference in how the first argument is quoted from the remainder
+        /// of the arguments.
+        /// </remarks>
         public virtual string ArgsToCommandLine(IEnumerable<string> args)
         {
             return String.Join(" ", args.Select(a => a.Quotify()));

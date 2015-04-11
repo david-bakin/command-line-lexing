@@ -318,9 +318,41 @@ EmittingBackslashesInsideQuotesStayingInsideQuotes:    0
         [InlineData(@"\abc", @"""\abc""")]
         [InlineData(@"a\bc", @"""a\bc""")]
         [InlineData(@"abc\", @"""abc\\""")]
+        [InlineData(@"def""ghi", @"""def\""ghi""")]
+        [InlineData(@"def\""ghi", @"""def\\\""ghi""")]
+        [InlineData(@"def\\""ghi", @"""def\\\\\""ghi""")]
+        [InlineData(@"C:\Test\xray.exe", @"""C:\Test\xray.exe""")]
+        [InlineData(@"C:\\Test\\xray.exe", @"""C:\\Test\\xray.exe""")]
         public void QuotifyTest(string input, string expected)
         {
             var actual = input.Quotify();
+            Assert.Equal(expected, actual);
+        }
+
+        delegate object[] ExeAndArgsToCommandLineTestCase(string expected, string exeName, params string[] args);
+
+        public static IEnumerable<object[]> ExeAndArgsToCommandLineTestCases
+        {
+            get
+            {
+                // N.B.: out of order so I can take advantage of params for args
+                CommandLineSplitTestCase tc = (expected, exeName, args) => new Object[] { exeName, args, expected };
+
+                yield return tc("abc", "abc");
+                yield return tc("abc def ghi", "abc", "def", "ghi");
+                yield return tc(@"""abc def"" ""ghi jkl""", "abc def", "ghi jkl");
+                yield return tc(@"""C:\Test\xray.exe"" abc", @"C:\Test\xray.exe", "abc");
+                yield return tc(@"""C:\\Test\\xray.exe"" abc", @"C:\\Test\\xray.exe", "abc");
+                yield return tc(@"abc ""\\Server\Share\file.txt\\"" def", "abc", @"\\Server\Share\file.txt\", "def");
+                yield return tc(@"abc ""def\""ghi""", "abc", @"def""ghi");
+            }
+        }
+
+        [Theory]
+        [MemberData("ExeAndArgsToCommandLineTestCases")]
+        public void ExeAndArgsToCommandLineTest(string exeName, string[] args, string expected)
+        {
+            var actual = splitter.ExeAndArgsToCommandLine(exeName, args);
             Assert.Equal(expected, actual);
         }
     }
