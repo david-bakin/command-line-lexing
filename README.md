@@ -13,4 +13,5 @@ But sometimes you have to get dirty and break down the command line yourself - o
 ### News
 2014-04-10: Setting up the repository today.  First version of code - working through unit tests and sample
 command line application.
+
 2014-04-11: And now quotifying arguments and building a command line is in and tested.
