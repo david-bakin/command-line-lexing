@@ -15,3 +15,5 @@ But sometimes you have to get dirty and break down the command line yourself - o
 command line application.
 
 2014-04-11: And now quotifying arguments and building a command line is in and tested.
+
+2014-04-14: Used ILMerge to move Utilities assembly into CommandLineLexer assembly and make all Utilities types internal so that Utilities assembly isn't separately deployed.  Reason is:  It's only a subset of my larger (not yet on github) utilities library and having it deployed might interfere with other copies of it.
