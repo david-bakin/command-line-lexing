@@ -79,10 +79,6 @@
       <Project>{1f1bd256-5bd8-4f82-8bb0-89b6af6ff584}</Project>
       <Name>CommandLineLexing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{7a15553b-6938-449e-bc9e-ee318a4743c6}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
